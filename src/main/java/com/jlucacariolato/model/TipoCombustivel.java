@@ -1,12 +1,26 @@
 package com.jlucacariolato.model;
 
 public class TipoCombustivel {
-    String nome;
-    double precoLitro;
+    private int id;
+    private String nome;
+    private double precoLitro;
 
-    public TipoCombustivel(String nome, double precoLitro) {
+    // CONSTRUTOR
+    public TipoCombustivel() {
+    }
+
+    public TipoCombustivel(int id, String nome, double precoLitro) {
+        this.id = id;
         this.nome = nome;
         this.precoLitro = precoLitro;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNome() {

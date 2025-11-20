@@ -1,16 +1,32 @@
 package com.jlucacariolato.model;
 
 public class Abastecimentos {
+    private int id;
     BombasCombustivel bombaCombustivel;
     String dataAbastecimento;
     double quantidadeValor;
     double litros;
+    double totalPago;
 
-    public Abastecimentos(BombasCombustivel bombaCombustivel, String dataAbastecimento, double quantidadeValor, double litros) {
+    // CONSTRUTOR
+    public Abastecimentos() {
+    }
+
+    public Abastecimentos(int id, BombasCombustivel bombaCombustivel, String dataAbastecimento, double quantidadeValor, double litros, double totalPago) {
+        this.id = id;
         this.bombaCombustivel = bombaCombustivel;
         this.dataAbastecimento = dataAbastecimento;
         this.quantidadeValor = quantidadeValor;
         this.litros = litros;
+        this.totalPago = totalPago;
+    }
+
+    public int getId(){
+        return id;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 
     public BombasCombustivel getBombaCombustivel() {
@@ -43,5 +59,13 @@ public class Abastecimentos {
 
     public void setLitros(double litros) {
         this.litros = litros;
+    }
+
+    public double getTotalPago() {
+        return totalPago;
+    }
+
+    public void setTotalPago(double totalPago) {
+        this.totalPago = totalPago;
     }
 }
