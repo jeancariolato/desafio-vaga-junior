@@ -13,8 +13,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class BombasCombustivelDAO {
-    private TipoCombustivelDAO tipoCombustivelDAO = new TipoCombustivelDAO();
-
     public BombasCombustivelDAO() {
         criarTabela();
     }
@@ -87,6 +85,33 @@ public class BombasCombustivelDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    // Buscar bomba por ID
+    public BombasCombustivel buscarBombaPorId(int id) {
+        String sql = "SELECT b.id, b.nome, b.tipoCombustivelId FROM bombas_combustivel b WHERE b.id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                BombasCombustivel bomba = new BombasCombustivel();
+                bomba.setId(rs.getInt("id"));
+                bomba.setNomeBomba(rs.getString("nome"));
+                int tipoCombustivelID = rs.getInt("tipoCombustivelId");
+                // Busca o tipo de combustivel que está associado
+                for (TipoCombustivel tipo : TipoCombustivelDAO.listarTipos()) {
+                    if (tipo.getId() == tipoCombustivelID) {
+                        bomba.setTipoCombustivel(tipo);
+                        break;
+                    }
+                }
+                return bomba;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     // Deletar bomba de combustivel

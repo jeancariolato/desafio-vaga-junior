@@ -72,10 +72,12 @@ public class AbastecimentosDAO {
             
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             
+            BombasCombustivelDAO bombaDAO = new BombasCombustivelDAO();
+            
             while (rs.next()) {
                 Abastecimentos abastecimento = new Abastecimentos();
                 abastecimento.setId(rs.getInt("id"));
-                abastecimento.getBombaCombustivel().getId();
+                abastecimento.setBombaCombustivel(bombaDAO.buscarBombaPorId(rs.getInt("bombaCombustivelId")));
                 abastecimento.setDataAbastecimento(rs.getTimestamp("dataHoraAbastecimento").toLocalDateTime().format(formatter));
                 abastecimento.setLitros(rs.getDouble("quantidadeAbastecida"));
                 lista.add(abastecimento);
