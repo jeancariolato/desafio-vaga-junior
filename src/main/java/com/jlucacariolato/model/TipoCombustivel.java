@@ -5,8 +5,13 @@ public class TipoCombustivel {
     private String nome;
     private double precoLitro;
 
-    // CONSTRUTOR
+    // CONSTRUTORES
     public TipoCombustivel() {
+    }
+
+    public TipoCombustivel(String nome, double precoLitro) {
+        this.nome = nome;
+        this.precoLitro = precoLitro;
     }
 
     public TipoCombustivel(int id, String nome, double precoLitro) {

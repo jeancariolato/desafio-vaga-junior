@@ -49,22 +49,23 @@ public class BombasCombustivelDAO {
     // Listar todas as bombas de combustível
     public List<BombasCombustivel> listarBombas() {
         List<BombasCombustivel> lista = new ArrayList<>();
-        String sql = "SELECT b.id, b.nome, b.tipoCombustivelId FROM bombas_combustivel b";
+        String sql = "SELECT b.id as bomba_id, b.nome as bomba_nome, t.id as tipo_id, t.nome as tipo_nome, t.precoLitro as tipo_preco " +
+                     "FROM bombas_combustivel b " +
+                     "JOIN tipo_combustivel t ON b.tipoCombustivelId = t.id";
         try (Connection conn = DatabaseConnection.getConnection();
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 BombasCombustivel bomba = new BombasCombustivel();
-                bomba.setId(rs.getInt("id"));
-                bomba.setNomeBomba(rs.getString("nome"));
-                int tipoCombustivelID = rs.getInt("tipoCombustivelId");
-                // Busca o tipo de combustivel que está associado
-                for (TipoCombustivel tipo : TipoCombustivelDAO.listarTipos()) {
-                    if (tipo.getId() == tipoCombustivelID) {
-                        bomba.setTipoCombustivel(tipo);
-                        break;
-                    }
-                }
+                bomba.setId(rs.getInt("bomba_id"));
+                bomba.setNomeBomba(rs.getString("bomba_nome"));
+
+                TipoCombustivel tipo = new TipoCombustivel();
+                tipo.setId(rs.getInt("tipo_id"));
+                tipo.setNome(rs.getString("tipo_nome"));
+                tipo.setPrecoLitro(rs.getDouble("tipo_preco"));
+
+                bomba.setTipoCombustivel(tipo);
                 lista.add(bomba);
             }
         } catch (SQLException e) {
@@ -89,23 +90,25 @@ public class BombasCombustivelDAO {
 
     // Buscar bomba por ID
     public BombasCombustivel buscarBombaPorId(int id) {
-        String sql = "SELECT b.id, b.nome, b.tipoCombustivelId FROM bombas_combustivel b WHERE b.id = ?";
+        String sql = "SELECT b.id as bomba_id, b.nome as bomba_nome, t.id as tipo_id, t.nome as tipo_nome, t.precoLitro as tipo_preco " +
+                     "FROM bombas_combustivel b " +
+                     "JOIN tipo_combustivel t ON b.tipoCombustivelId = t.id " +
+                     "WHERE b.id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 BombasCombustivel bomba = new BombasCombustivel();
-                bomba.setId(rs.getInt("id"));
-                bomba.setNomeBomba(rs.getString("nome"));
-                int tipoCombustivelID = rs.getInt("tipoCombustivelId");
-                // Busca o tipo de combustivel que está associado
-                for (TipoCombustivel tipo : TipoCombustivelDAO.listarTipos()) {
-                    if (tipo.getId() == tipoCombustivelID) {
-                        bomba.setTipoCombustivel(tipo);
-                        break;
-                    }
-                }
+                bomba.setId(rs.getInt("bomba_id"));
+                bomba.setNomeBomba(rs.getString("bomba_nome"));
+
+                TipoCombustivel tipo = new TipoCombustivel();
+                tipo.setId(rs.getInt("tipo_id"));
+                tipo.setNome(rs.getString("tipo_nome"));
+                tipo.setPrecoLitro(rs.getDouble("tipo_preco"));
+
+                bomba.setTipoCombustivel(tipo);
                 return bomba;
             }
         } catch (SQLException e) {

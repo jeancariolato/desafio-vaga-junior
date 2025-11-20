@@ -1,10 +1,10 @@
 package com.jlucacariolato;
 
-import com.jlucacariolato.model.Abastecimentos;
+import com.jlucacariolato.views.JanelaPrincipal;
 
 public class Main {
     public static void main(String[] args) {
-        Abastecimentos novoAbastecimento = new Abastecimentos();
+       new JanelaPrincipal();
 
 
         }

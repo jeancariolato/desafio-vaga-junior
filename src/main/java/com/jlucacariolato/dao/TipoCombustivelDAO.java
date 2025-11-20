@@ -15,6 +15,7 @@ public class TipoCombustivelDAO {
     // Criando tabela de Tipo de Combustível
     public TipoCombustivelDAO() {
         criarTabela();
+
     }
 
     // MÉTODO PARA CRIAR TABELA CASO NAO EXISTA
@@ -49,7 +50,7 @@ public class TipoCombustivelDAO {
     }
 
     //Listar todos os tipos de combustíveis
-    public static List<TipoCombustivel> listarTipos() {
+    public List<TipoCombustivel> listarTipos() {
         List <TipoCombustivel> tiposCombustivel = new ArrayList<>();
         String sql = "SELECT * FROM tipo_combustivel";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -60,6 +61,9 @@ public class TipoCombustivelDAO {
                 tipoCombustivel.setId(rs.getInt("id"));
                 tipoCombustivel.setNome(rs.getString("nome"));
                 tipoCombustivel.setPrecoLitro(rs.getDouble("precoLitro"));
+                System.out.println(rs.getInt("id"));
+                System.out.println(rs.getInt("nome"));
+                System.out.println(rs.getInt("precoLitro"));
 
                 tiposCombustivel.add(tipoCombustivel);
             }
