@@ -28,4 +28,8 @@ public class TipoCombustivelService {
         tipoCombustivelDAO.deletarTipoCombustivel(id);
     }
     
+    public TipoCombustivel buscarPorId(int id) {
+        return tipoCombustivelDAO.buscarPorId(id);
+    }
+    
 }

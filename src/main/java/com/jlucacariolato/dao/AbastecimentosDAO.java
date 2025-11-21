@@ -18,26 +18,7 @@ import com.jlucacariolato.model.BombasCombustivel;
 public class AbastecimentosDAO {
 
     public AbastecimentosDAO() {
-        criarTabela();
-    }
 
-    private void criarTabela() {
-        String sql = "CREATE TABLE IF NOT EXISTS abastecimentos (" +
-                "id INT AUTO_INCREMENT PRIMARY KEY," +
-                "bombaCombustivelId INT," +
-                "dataHoraAbastecimento DATETIME," +
-                "quantidadeAbastecida DOUBLE," +
-                "precoCombustivel DOUBLE," +
-                "totalPago DOUBLE," +
-                "FOREIGN KEY (bombaCombustivelId) REFERENCES bombas_combustivel(id)" +
-                ")";
-
-        try (Connection conn = DatabaseConnection.getConnection();
-                Statement stmt = conn.createStatement()) {
-            stmt.execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     // Criar

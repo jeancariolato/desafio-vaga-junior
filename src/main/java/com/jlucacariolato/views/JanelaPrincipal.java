@@ -5,8 +5,10 @@ import com.jlucacariolato.model.TipoCombustivel;
 import com.jlucacariolato.services.AbastecimentosService;
 import com.jlucacariolato.services.BombasCombustivelService;
 import com.jlucacariolato.services.TipoCombustivelService;
+import com.jlucacariolato.views.dialogs.AtualizarTipoCombustivel;
 import com.jlucacariolato.views.dialogs.CadastroBomba;
 import com.jlucacariolato.views.dialogs.CadastroTipoCombustivel;
+import com.jlucacariolato.views.dialogs.DeletarTipoCombustivel; // Added import
 
 import java.util.List;
 
@@ -19,6 +21,7 @@ public class JanelaPrincipal extends JFrame {
     private BombasCombustivelService bombasCombustivelService = new BombasCombustivelService();
     private TipoCombustivelService tipoCombustivelService = new TipoCombustivelService();
     private JTextArea displayArea;
+
 
     public JanelaPrincipal() {
         //Configuração da tela
@@ -76,36 +79,65 @@ public class JanelaPrincipal extends JFrame {
 
         //Área de exibição dos dados
         displayArea = new JTextArea();
+        displayArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
         displayArea.setEditable(false);
         add(new JScrollPane(displayArea), BorderLayout.CENTER);
 
         //Ações para os menus
         criarTipo.addActionListener(e -> cadastrarTipoCombustivel());
-        /*criarBomba.addActionListener(e -> cadastrarBomba());
-        /*criarAbastecimento.addActionListener(e -> cadastrarAbastecimento());*/
-
         verTipo.addActionListener(e -> verTiposCombustivel());
+        deletarTipo.addActionListener(e -> deletarTipoCombustivel());
+        atualizarTipo.addActionListener(e -> atualizarTipoCombustivel());
 
         setVisible(true);
     }
 
-    //Métodos para chamar os dialogs para abrir os painel de cadastro
+    //Métodos para chamar os dialogs para abrir os painel (Tipo de Combustivel)
     private void cadastrarTipoCombustivel() {
         CadastroTipoCombustivel cadastro = new CadastroTipoCombustivel(this);
         cadastro.exibir();
     }
+    
+    private void deletarTipoCombustivel() {
+        DeletarTipoCombustivel deletar = new DeletarTipoCombustivel(this);
+        deletar.exibir();
+    }
 
-    /*private void cadastrarBomba() {
-        CadastroBomba cadastro = new CadastroBomba(this);
-        cadastro.exibir();
-    }*/
-
+    private void atualizarTipoCombustivel() {
+        AtualizarTipoCombustivel atualizar = new AtualizarTipoCombustivel(this);
+        atualizar.exibir();
+    }
 
     //Métodos para ver a lista de itens cadastrados
     private void verTiposCombustivel() {
-        TipoCombustivelDAO dao = new TipoCombustivelDAO();
-        dao.listarTipos();
-    }
+        try {
+            List<TipoCombustivel> tipos = tipoCombustivelService.listar();
+            if (tipos.isEmpty()) {
+                displayArea.setText("Nenhum tipo de combustível cadastrado.");
+                return;
+            }
 
+            StringBuilder sb = new StringBuilder();
+
+            sb.append(String.format("%-5s  %-25s  %-15s\n",
+                    "ID", "NOME", "PREÇO/LITRO (R$)"));
+            sb.append("--------------------------------------------------------------\n");
+
+            for (TipoCombustivel tipo : tipos) {
+                String preco = String.format("%.2f", tipo.getPrecoLitro()).replace('.', ',');
+
+                sb.append(String.format("%-5d  %-25s  %-15s\n",
+                        tipo.getId(),
+                        tipo.getNome(),
+                        preco));
+            }
+
+            displayArea.setText(sb.toString());
+
+        } catch (Exception e) {
+            displayArea.setText("Erro ao buscar tipos de combustível:\n" + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
 }

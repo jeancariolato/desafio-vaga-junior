@@ -6,8 +6,7 @@ import java.sql.SQLException;
 
 public class DatabaseConnection {
     //CREDENCIAIS
-    //DB PERSISTIR DURANTE EXECUÇÃO
-    private static final String URL = "jdbc:h2:mem:posto;DB_CLOSE_DELAY=-1";
+    private static final String URL = "jdbc:mysql://localhost:3306/posto_db";
     private static final String USER = "";
     private static final String PASSWORD = "";
 

@@ -9,6 +9,7 @@ import java.awt.*;
 public class CadastroTipoCombustivel {
 
     private JFrame parent;
+
     private JTextField txtNome;
     private JTextField txtPreco;
 

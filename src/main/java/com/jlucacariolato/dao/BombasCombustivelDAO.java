@@ -14,23 +14,7 @@ import java.sql.ResultSet;
 
 public class BombasCombustivelDAO {
     public BombasCombustivelDAO() {
-        criarTabela();
-    }
 
-    private void criarTabela() {
-        String sql = "CREATE TABLE IF NOT EXISTS bombas_combustivel (" +
-                "id INT AUTO_INCREMENT PRIMARY KEY," +
-                "nome VARCHAR(255)," +
-                "tipoCombustivelId INT," +
-                "FOREIGN KEY (tipoCombustivelId) REFERENCES tipo_combustivel(id)" +
-                ")";
-
-        try (Connection conn = DatabaseConnection.getConnection();
-                Statement stmt = conn.createStatement()) {
-            stmt.execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     // Criar bomba de combustível
