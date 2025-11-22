@@ -37,3 +37,9 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Arquivos de Configuração Sensíveis ###
+.env
+*.env
+!.env.example
+database.properties
