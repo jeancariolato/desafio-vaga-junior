@@ -98,6 +98,8 @@ public class JanelaPrincipal extends JFrame {
 
         verAbastecimento.addActionListener(e -> verAbastecimentos());
         criarAbastecimento.addActionListener(e -> criarAbastecimento());
+        atualizarAbastecimento.addActionListener(e -> atualizarAbastecimento());
+        deletarAbastecimento.addActionListener(e -> deletarAbastecimentos());
 
         setVisible(true);
     }
@@ -136,6 +138,16 @@ public class JanelaPrincipal extends JFrame {
     private void criarAbastecimento() {
         CadastroAbastecimentos cadastro = new CadastroAbastecimentos(this);
         cadastro.exibir();
+    }
+
+    private void atualizarAbastecimento() {
+        AtualizarAbastecimentos atualizar = new AtualizarAbastecimentos(this);
+        atualizar.exibir();
+    }
+
+    private void deletarAbastecimentos(){
+        DeletarAbastecimentos deletar = new DeletarAbastecimentos(this);
+        deletar.exibir();
     }
 
     //Métodos para ver a lista de itens cadastrados

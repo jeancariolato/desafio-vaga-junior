@@ -23,6 +23,10 @@ public class AbastecimentosService {
         abastecimentosDAO.update(abastecimento);
     }
 
+    public Abastecimentos buscarPorId(long id) {
+        return abastecimentosDAO.buscarAbastecimentoPorId(id);
+    }
+
     public void deletar(int id){
         abastecimentosDAO.deletar(id);
     }

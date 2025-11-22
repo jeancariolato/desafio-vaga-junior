@@ -104,4 +104,34 @@ public class AbastecimentosDAO {
 
     }
 
+    public Abastecimentos buscarAbastecimentoPorId(long id) {
+        String sql = "SELECT a.id, a.bombaCombustivelId, a.dataHoraAbastecimento, a.quantidadeAbastecida, a.precoCombustivel, a.totalPago FROM abastecimentos a WHERE a.id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setLong(1, id);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                Abastecimentos abastecimento = new Abastecimentos();
+                abastecimento.setId(rs.getInt("id"));
+                
+                BombasCombustivelDAO bombaDAO = new BombasCombustivelDAO();
+                abastecimento.setBombaCombustivel(bombaDAO.buscarBombaPorId(rs.getInt("bombaCombustivelId")));
+                
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                abastecimento.setDataAbastecimento(rs.getTimestamp("dataHoraAbastecimento").toLocalDateTime().format(formatter));
+                
+                abastecimento.setLitros(rs.getDouble("quantidadeAbastecida"));
+                abastecimento.setQuantidadeValor(rs.getDouble("precoCombustivel"));
+                abastecimento.setTotalPago(rs.getDouble("totalPago"));
+                
+                return abastecimento;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
