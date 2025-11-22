@@ -4,6 +4,7 @@ import com.jlucacariolato.model.BombasCombustivel;
 import com.jlucacariolato.model.TipoCombustivel;
 import com.jlucacariolato.services.BombasCombustivelService;
 import com.jlucacariolato.services.TipoCombustivelService;
+import com.jlucacariolato.views.JanelaPrincipal;
 
 import javax.swing.*;
 import java.awt.*;
@@ -146,6 +147,9 @@ public class AtualizarBomba extends JDialog {
                 bombasCombustivelService.atualizar(bombaParaAtualizar);
 
                 JOptionPane.showMessageDialog(this, "Bomba de combustível atualizada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                if (getParent() instanceof JanelaPrincipal) {
+                    ((JanelaPrincipal) getParent()).verBombas();
+                }
 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Erro ao atualizar a bomba de combustível: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);

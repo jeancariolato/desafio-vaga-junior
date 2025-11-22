@@ -28,9 +28,10 @@ public class JanelaPrincipal extends JFrame {
     public JanelaPrincipal() {
         //Configuração da tela
         setTitle("GERENCIADOR - ABASTECIMENTO");
-        setSize(600, 400);
+        setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+        setLocationRelativeTo(null);
 
         //Barra de menu
         // Cria uma barra de menu para o JFrame
@@ -151,7 +152,7 @@ public class JanelaPrincipal extends JFrame {
     }
 
     //Métodos para ver a lista de itens cadastrados
-    private void verTiposCombustivel() {
+    public void verTiposCombustivel() {
         try {
             List<TipoCombustivel> tipos = tipoCombustivelService.listar();
             if (tipos.isEmpty()) {
@@ -182,7 +183,7 @@ public class JanelaPrincipal extends JFrame {
         }
     }
 
-    private void verBombas(){
+    public void verBombas(){
         List <BombasCombustivel> bombasCombustivel = bombasCombustivelService.listar();
 
         if (bombasCombustivel.isEmpty()) {
@@ -211,7 +212,7 @@ public class JanelaPrincipal extends JFrame {
         displayArea.setText(sb.toString());
     }
 
-    private void verAbastecimentos(){
+    public void verAbastecimentos(){
         List<Abastecimentos> abastecimentos = abastecimentosService.listar();
 
         if (abastecimentos.isEmpty()) {

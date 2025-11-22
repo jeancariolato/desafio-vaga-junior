@@ -1,30 +1,29 @@
 package com.jlucacariolato.views.dialogs;
 
 import com.jlucacariolato.services.AbastecimentosService;
-import com.jlucacariolato.services.TipoCombustivelService;
+import com.jlucacariolato.views.JanelaPrincipal;
 
 import javax.swing.*;
 
-public class DeletarAbastecimentos extends JDialog{
+public class DeletarAbastecimentos extends JDialog {
+
     private AbastecimentosService abastecimentosService;
 
     public DeletarAbastecimentos(JFrame parent) {
-        super(parent, "Deletar Tipo de Combustível", true);
+        super(parent, "Deletar Abastecimento", true);
         this.abastecimentosService = new AbastecimentosService();
-
     }
 
-
     public void exibir() {
-        exibirOpcoesDeletar(); // chama o JOptionPane
+        exibirOpcoesDeletar();
         dispose();
     }
 
     private void exibirOpcoesDeletar() {
         String input = JOptionPane.showInputDialog(
                 getParent(),
-                "Digite o ID do Abastecimento a ser deletado:",
-                "Deletar abastecimento",
+                "Digite o ID do abastecimento a ser deletado:",
+                "Deletar Abastecimento",
                 JOptionPane.QUESTION_MESSAGE
         );
 
@@ -47,6 +46,9 @@ public class DeletarAbastecimentos extends JDialog{
                         "Sucesso",
                         JOptionPane.INFORMATION_MESSAGE
                 );
+                if (getParent() instanceof JanelaPrincipal) {
+                    ((JanelaPrincipal) getParent()).verAbastecimentos();
+                }
             }
 
         } catch (Exception e) {

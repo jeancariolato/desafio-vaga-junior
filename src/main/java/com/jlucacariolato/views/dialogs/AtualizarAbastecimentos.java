@@ -4,6 +4,7 @@ import com.jlucacariolato.model.Abastecimentos;
 import com.jlucacariolato.model.BombasCombustivel;
 import com.jlucacariolato.services.AbastecimentosService;
 import com.jlucacariolato.services.BombasCombustivelService;
+import com.jlucacariolato.views.JanelaPrincipal;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -173,6 +174,9 @@ public class AtualizarAbastecimentos extends JDialog {
 
             abastecimentosService.atualizar(abastecimentoSelecionado);
             JOptionPane.showMessageDialog(this, "Abastecimento atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            if (getParent() instanceof JanelaPrincipal) {
+                ((JanelaPrincipal) getParent()).verAbastecimentos();
+            }
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "A quantidade deve ser um número válido.", "Erro", JOptionPane.ERROR_MESSAGE);

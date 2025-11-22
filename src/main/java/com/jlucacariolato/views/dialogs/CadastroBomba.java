@@ -4,6 +4,7 @@ import com.jlucacariolato.model.BombasCombustivel;
 import com.jlucacariolato.model.TipoCombustivel;
 import com.jlucacariolato.services.BombasCombustivelService;
 import com.jlucacariolato.services.TipoCombustivelService;
+import com.jlucacariolato.views.JanelaPrincipal;
 
 import javax.swing.*;
 import java.awt.*;
@@ -89,6 +90,9 @@ public class CadastroBomba {
         BombasCombustivel bombaCombustivel = new BombasCombustivel(nome, tipoCombustivel);
         bombaService.criar(bombaCombustivel);
         JOptionPane.showMessageDialog(parent, "Bomba cadastrada com sucesso!");
+        if (parent instanceof JanelaPrincipal) {
+            ((JanelaPrincipal) parent).verBombas();
+        }
     }
 
     private void exibirErro(String mensagem) {

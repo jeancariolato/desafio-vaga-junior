@@ -2,6 +2,7 @@ package com.jlucacariolato.views.dialogs;
 
 import com.jlucacariolato.model.TipoCombustivel;
 import com.jlucacariolato.services.TipoCombustivelService;
+import com.jlucacariolato.views.JanelaPrincipal;
 
 import javax.swing.*;
 import java.awt.*;
@@ -107,6 +108,9 @@ public class AtualizarTipoCombustivel extends JDialog {
                 tipoCombustivelService.atualizar(tipoAtualizado);
 
                 JOptionPane.showMessageDialog(this, "Tipo de combustível atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                if (getParent() instanceof JanelaPrincipal) {
+                    ((JanelaPrincipal) getParent()).verTiposCombustivel();
+                }
 
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "O preço deve ser um número válido.", "Erro de Formato", JOptionPane.ERROR_MESSAGE);

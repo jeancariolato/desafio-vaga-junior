@@ -1,7 +1,7 @@
 package com.jlucacariolato.views.dialogs;
 
 import com.jlucacariolato.services.BombasCombustivelService;
-import com.jlucacariolato.services.TipoCombustivelService;
+import com.jlucacariolato.views.JanelaPrincipal;
 
 import javax.swing.*;
 
@@ -47,6 +47,9 @@ public class DeletarBomba extends JDialog {
                         "Sucesso",
                         JOptionPane.INFORMATION_MESSAGE
                 );
+                if (getParent() instanceof JanelaPrincipal) {
+                    ((JanelaPrincipal) getParent()).verBombas();
+                }
             }
 
         } catch (Exception e) {

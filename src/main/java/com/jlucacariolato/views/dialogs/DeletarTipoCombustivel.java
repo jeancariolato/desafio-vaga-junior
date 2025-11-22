@@ -1,6 +1,7 @@
 package com.jlucacariolato.views.dialogs;
 
 import com.jlucacariolato.services.TipoCombustivelService;
+import com.jlucacariolato.views.JanelaPrincipal;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -49,6 +50,9 @@ public class DeletarTipoCombustivel extends JDialog {
                         "Sucesso",
                         JOptionPane.INFORMATION_MESSAGE
                 );
+                if (getParent() instanceof JanelaPrincipal) {
+                    ((JanelaPrincipal) getParent()).verTiposCombustivel();
+                }
             }
 
         } catch (Exception e) {

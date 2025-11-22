@@ -3,6 +3,8 @@ package com.jlucacariolato.views.dialogs;
 import com.jlucacariolato.dao.TipoCombustivelDAO;
 import com.jlucacariolato.model.TipoCombustivel;
 
+import com.jlucacariolato.views.JanelaPrincipal;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -77,6 +79,9 @@ public class CadastroTipoCombustivel {
 
             // Exibir sucesso
             exibirSucesso(nome, preco);
+            if (parent instanceof JanelaPrincipal) {
+                ((JanelaPrincipal) parent).verTiposCombustivel();
+            }
 
         } catch (NumberFormatException e) {
             exibirErro("Por favor, insira um preço válido!");

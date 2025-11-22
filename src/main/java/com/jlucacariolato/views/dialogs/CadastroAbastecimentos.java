@@ -4,6 +4,7 @@ import com.jlucacariolato.model.Abastecimentos;
 import com.jlucacariolato.model.BombasCombustivel;
 import com.jlucacariolato.services.AbastecimentosService;
 import com.jlucacariolato.services.BombasCombustivelService;
+import com.jlucacariolato.views.JanelaPrincipal;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -162,6 +163,9 @@ public class CadastroAbastecimentos {
 
             abastecimentosService.criar(abastecimento);
             JOptionPane.showMessageDialog(parent, "Abastecimento cadastrado com sucesso!");
+            if (parent instanceof JanelaPrincipal) {
+                ((JanelaPrincipal) parent).verAbastecimentos();
+            }
 
         } catch (NumberFormatException e) {
             exibirErro("A quantidade abastecida deve ser um número válido.");
