@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ public class AbastecimentosDAO {
 
     }
 
-    // Criar
+    // Insere um novo abastecimento no banco de dados
     public void criarAbastecimento(Abastecimentos abastecimento) {
         String sql = "INSERT INTO abastecimentos (bombaCombustivelId, dataHoraAbastecimento, quantidadeAbastecida, precoCombustivel, totalPago) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -41,7 +40,7 @@ public class AbastecimentosDAO {
         }
     }
 
-    // Listar
+    // Retorna todos os abastecimentos cadastrados com suas bombas e tipos de combustível
     public List<Abastecimentos> listarAbastecimentos() {
         List<Abastecimentos> lista = new ArrayList<>();
         String sql = "SELECT a.id, a.bombaCombustivelId, a.dataHoraAbastecimento, a.quantidadeAbastecida, a.precoCombustivel, a.totalPago FROM abastecimentos a";
@@ -69,7 +68,7 @@ public class AbastecimentosDAO {
         return lista;
     }
 
-    // Atualizar
+    // Atualiza os dados de um abastecimento existente
     public void update(Abastecimentos abastecimento) {
         String sql = "UPDATE abastecimentos SET bombaCombustivelId = ?, dataHoraAbastecimento = ?, quantidadeAbastecida = ?, precoCombustivel = ?, totalPago = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -91,7 +90,7 @@ public class AbastecimentosDAO {
         }
     }
 
-    // Deletar
+    // Remove um abastecimento do banco de dados pelo ID
     public void deletar(int id) {
         String sql = "DELETE FROM abastecimentos WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -104,6 +103,7 @@ public class AbastecimentosDAO {
 
     }
 
+    // Busca e retorna um abastecimento específico pelo ID
     public Abastecimentos buscarAbastecimentoPorId(long id) {
         String sql = "SELECT a.id, a.bombaCombustivelId, a.dataHoraAbastecimento, a.quantidadeAbastecida, a.precoCombustivel, a.totalPago FROM abastecimentos a WHERE a.id = ?";
         try (Connection conn = DatabaseConnection.getConnection();

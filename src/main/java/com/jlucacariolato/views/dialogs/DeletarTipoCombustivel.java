@@ -3,9 +3,9 @@ package com.jlucacariolato.views.dialogs;
 import com.jlucacariolato.services.TipoCombustivelService;
 import com.jlucacariolato.views.JanelaPrincipal;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class DeletarTipoCombustivel extends JDialog {
 
@@ -17,12 +17,13 @@ public class DeletarTipoCombustivel extends JDialog {
 
     }
 
-
+    // Exibe o diálogo para deletar um tipo de combustível
     public void exibir() {
         exibirOpcoesDeletar(); // chama o JOptionPane
         dispose();
     }
 
+    // Solicita o ID do tipo de combustível e confirma a exclusão
     private void exibirOpcoesDeletar() {
         String input = JOptionPane.showInputDialog(
                 getParent(),

@@ -6,9 +6,16 @@ import com.jlucacariolato.services.AbastecimentosService;
 import com.jlucacariolato.services.BombasCombustivelService;
 import com.jlucacariolato.views.JanelaPrincipal;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.text.DecimalFormat;
@@ -33,6 +40,7 @@ public class CadastroAbastecimentos {
         this.bombasCombustivelService = new BombasCombustivelService();
     }
 
+    // Exibe o diálogo de cadastro de novo abastecimento
     public void exibir() {
         bombas = bombasCombustivelService.listar();
 
@@ -110,6 +118,7 @@ public class CadastroAbastecimentos {
         }
     }
 
+    // Atualiza o campo de preço com base na bomba selecionada
     private void atualizarPrecoCombustivel() {
         int selectedIndex = comboBombas.getSelectedIndex();
         if (selectedIndex != -1) {
@@ -120,6 +129,7 @@ public class CadastroAbastecimentos {
         }
     }
 
+    // Calcula automaticamente o valor total baseado na quantidade e preço do combustível
     private void calcularTotal() {
         try {
             double quantidade = Double.parseDouble(txtQuantidade.getText().replace(",", "."));
@@ -134,6 +144,7 @@ public class CadastroAbastecimentos {
         }
     }
 
+    // Valida os dados e salva o novo abastecimento no banco de dados
     private void processarCadastro() {
         if (bombaSelecionada == null) {
             exibirErro("Selecione uma bomba de combustível.");
@@ -172,6 +183,7 @@ public class CadastroAbastecimentos {
         }
     }
 
+    // Exibe uma mensagem de erro ao usuário
     private void exibirErro(String mensagem) {
         JOptionPane.showMessageDialog(parent, mensagem, "Erro", JOptionPane.ERROR_MESSAGE);
     }

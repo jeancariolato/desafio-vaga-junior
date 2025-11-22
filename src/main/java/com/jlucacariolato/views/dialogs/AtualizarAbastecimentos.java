@@ -6,7 +6,14 @@ import com.jlucacariolato.services.AbastecimentosService;
 import com.jlucacariolato.services.BombasCombustivelService;
 import com.jlucacariolato.views.JanelaPrincipal;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
@@ -36,6 +43,7 @@ public class AtualizarAbastecimentos extends JDialog {
         carregarBombas();
     }
 
+    // Carrega os IDs de todos os abastecimentos cadastrados no combo box
     private void carregarAbastecimentosIds() {
         abastecimentos = abastecimentosService.listar();
         comboAbastecimentoId = new JComboBox<>();
@@ -44,6 +52,7 @@ public class AtualizarAbastecimentos extends JDialog {
         }
     }
 
+    // Carrega todas as bombas de combustível disponíveis no combo box
     private void carregarBombas() {
         bombas = bombasCombustivelService.listar();
         comboBombas = new JComboBox<>();
@@ -52,6 +61,7 @@ public class AtualizarAbastecimentos extends JDialog {
         }
     }
 
+    // Exibe o diálogo de atualização de abastecimento com os campos preenchidos
     public void exibir() {
         if (abastecimentos.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nenhum abastecimento para atualizar.", "Informação", JOptionPane.INFORMATION_MESSAGE);
@@ -115,6 +125,7 @@ public class AtualizarAbastecimentos extends JDialog {
         }
     }
 
+    // Preenche os campos do formulário com os dados do abastecimento selecionado
     private void povoarCampos() {
         Long selectedId = (Long) comboAbastecimentoId.getSelectedItem();
         if (selectedId == null) return;
@@ -136,6 +147,7 @@ public class AtualizarAbastecimentos extends JDialog {
         }
     }
 
+    // Calcula automaticamente o valor total baseado na quantidade e preço do combustível
     private void calcularTotal() {
         try {
             double quantidade = Double.parseDouble(txtQuantidade.getText().replace(",", "."));
@@ -150,8 +162,7 @@ public class AtualizarAbastecimentos extends JDialog {
         }
     }
 
-
-
+    // Processa e salva as alterações do abastecimento no banco de dados
     private void processarAtualizacao() {
         if (abastecimentoSelecionado == null) {
             JOptionPane.showMessageDialog(this, "Nenhum abastecimento selecionado.", "Erro", JOptionPane.ERROR_MESSAGE);

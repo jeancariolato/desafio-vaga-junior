@@ -3,7 +3,11 @@ package com.jlucacariolato.views.dialogs;
 import com.jlucacariolato.services.BombasCombustivelService;
 import com.jlucacariolato.views.JanelaPrincipal;
 
-import javax.swing.*;
+
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 
 public class DeletarBomba extends JDialog {
 
@@ -15,11 +19,13 @@ public class DeletarBomba extends JDialog {
         this.bombasCombustivelService = new BombasCombustivelService();
     }
 
+    // Exibe o diálogo para deletar uma bomba de combustível
     public void exibir() {
         exibirOpcoesDeletar(); // chama o JOptionPane
         dispose();
     }
 
+    // Solicita o ID da bomba e confirma a exclusão
     private void exibirOpcoesDeletar() {
         String input = JOptionPane.showInputDialog(
                 getParent(),

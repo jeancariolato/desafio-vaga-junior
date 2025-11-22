@@ -6,7 +6,14 @@ import com.jlucacariolato.services.BombasCombustivelService;
 import com.jlucacariolato.services.TipoCombustivelService;
 import com.jlucacariolato.views.JanelaPrincipal;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import java.awt.*;
 import java.util.List;
 
@@ -24,6 +31,7 @@ public class CadastroBomba {
         this.bombaService = new BombasCombustivelService();
     }
 
+    // Exibe o diálogo de cadastro de nova bomba de combustível
     public void exibir() {
         tiposCombustivel = tipoCombustivelService.listar();
 
@@ -62,6 +70,7 @@ public class CadastroBomba {
         }
     }
 
+    // Valida os dados e salva a nova bomba no banco de dados
     private void processarCadastro() {
         String nome = txtNome.getText().trim();
         String tipoSelecionadoNome = (String) combo.getSelectedItem();
@@ -86,6 +95,7 @@ public class CadastroBomba {
         }
     }
 
+    // Cria e salva uma nova bomba de combustível no banco de dados
     private void salvarBomba(String nome, TipoCombustivel tipoCombustivel) {
         BombasCombustivel bombaCombustivel = new BombasCombustivel(nome, tipoCombustivel);
         bombaService.criar(bombaCombustivel);
@@ -95,6 +105,7 @@ public class CadastroBomba {
         }
     }
 
+    // Exibe uma mensagem de erro ao usuário
     private void exibirErro(String mensagem) {
         JOptionPane.showMessageDialog(parent, mensagem, "Erro", JOptionPane.ERROR_MESSAGE);
     }

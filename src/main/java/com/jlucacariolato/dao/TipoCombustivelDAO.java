@@ -21,7 +21,7 @@ public class TipoCombustivelDAO {
 
     //CRUD
 
-    //Criar tipo de combustível
+    // Insere um novo tipo de combustível no banco de dados
     public void criarTipoCombustivel(TipoCombustivel tipoCombustivel) {
         String sql = "INSERT INTO tipos_combustivel (nome, preco_litro) VALUES (?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -34,7 +34,7 @@ public class TipoCombustivelDAO {
         }
     }
 
-    // Listar todos os tipos de combustíveis
+    // Retorna todos os tipos de combustíveis cadastrados
     public List<TipoCombustivel> listarTipos() {
         List<TipoCombustivel> tiposCombustivel = new ArrayList<>();
         String sql = "SELECT * FROM tipos_combustivel";
@@ -63,7 +63,7 @@ public class TipoCombustivelDAO {
         return tiposCombustivel;
     }
 
-    //Atualizar
+    // Atualiza os dados de um tipo de combustível existente
     public void atualizarTipoCombustivel(TipoCombustivel tipoCombustivel) {
         String sql = "UPDATE tipos_combustivel SET nome = ?, preco_litro = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -77,7 +77,7 @@ public class TipoCombustivelDAO {
         }
     }
 
-    //Deletar
+    // Remove um tipo de combustível do banco de dados pelo ID
     public void deletarTipoCombustivel(int id) {
         String sql = "DELETE FROM tipos_combustivel WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -89,6 +89,7 @@ public class TipoCombustivelDAO {
         }
     }
     
+    // Busca e retorna um tipo de combustível específico pelo ID
     public TipoCombustivel buscarPorId(int id) {
         String sql = "SELECT * FROM tipos_combustivel WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();

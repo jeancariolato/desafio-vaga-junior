@@ -4,7 +4,15 @@ import com.jlucacariolato.model.TipoCombustivel;
 import com.jlucacariolato.services.TipoCombustivelService;
 import com.jlucacariolato.views.JanelaPrincipal;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -44,6 +52,7 @@ public class AtualizarTipoCombustivel extends JDialog {
         }
     }
 
+    // Carrega os IDs de todos os tipos de combustível cadastrados no combo box
     private void carregarIds() {
         try {
             List<TipoCombustivel> tipos = tipoCombustivelService.listar();
@@ -57,7 +66,7 @@ public class AtualizarTipoCombustivel extends JDialog {
         }
     }
 
-
+    // Exibe o diálogo de atualização de tipo de combustível com os campos preenchidos
     public void exibir(){
         // Criar painel principal
         JPanel panel = new JPanel();

@@ -17,7 +17,7 @@ public class BombasCombustivelDAO {
 
     }
 
-    // Criar bomba de combustível
+    // Insere uma nova bomba de combustível no banco de dados
     public void criarBombaCombustivel(BombasCombustivel bombasCombustivel) {
         String sql = "INSERT INTO bombas (nome, tipoCombustivelId) VALUES (?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -30,7 +30,7 @@ public class BombasCombustivelDAO {
         }
     }
 
-    // Listar todas as bombas de combustível
+    // Retorna todas as bombas cadastradas com seus respectivos tipos de combustível
     public List<BombasCombustivel> listarBombas() {
         List<BombasCombustivel> lista = new ArrayList<>();
         String sql = "SELECT b.id as bomba_id, b.nome as bomba_nome, t.id as tipo_id, t.nome as tipo_nome, t.preco_litro as tipo_preco " +
@@ -58,7 +58,7 @@ public class BombasCombustivelDAO {
         return lista;
     }
 
-    // Atualizar bomba de combustível
+    // Atualiza os dados de uma bomba de combustível existente
     public void update(BombasCombustivel bombasCombustivel) {
         String sql = "UPDATE bombas SET nome = ?, tipoCombustivelId = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -72,7 +72,7 @@ public class BombasCombustivelDAO {
         }
     }
 
-    // Buscar bomba por ID
+    // Busca e retorna uma bomba específica pelo ID com seu tipo de combustível
     public BombasCombustivel buscarBombaPorId(int id) {
         String sql = "SELECT b.id as bomba_id, b.nome as bomba_nome, t.id as tipo_id, t.nome as tipo_nome, t.preco_litro as tipo_preco " +
                      "FROM bombas b " +
@@ -101,7 +101,7 @@ public class BombasCombustivelDAO {
         return null;
     }
 
-    // Deletar bomba de combustivel
+    // Remove uma bomba de combustível do banco de dados pelo ID
     public void deletar(int id) {
         String sql = "DELETE FROM bombas WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();

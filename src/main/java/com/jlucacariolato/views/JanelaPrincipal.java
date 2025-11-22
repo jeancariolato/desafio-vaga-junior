@@ -1,6 +1,5 @@
 package com.jlucacariolato.views;
 
-import com.jlucacariolato.dao.TipoCombustivelDAO;
 import com.jlucacariolato.model.Abastecimentos;
 import com.jlucacariolato.model.BombasCombustivel;
 import com.jlucacariolato.model.TipoCombustivel;
@@ -14,7 +13,13 @@ import java.util.List;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
 import java.awt.*;
 
 public class JanelaPrincipal extends JFrame {
@@ -24,7 +29,7 @@ public class JanelaPrincipal extends JFrame {
     private TipoCombustivelService tipoCombustivelService = new TipoCombustivelService();
     private JTextArea displayArea;
 
-
+    // Construtor que inicializa a janela principal com menus e área de exibição
     public JanelaPrincipal() {
         //Configuração da tela
         setTitle("GERENCIADOR - ABASTECIMENTO");
@@ -105,53 +110,61 @@ public class JanelaPrincipal extends JFrame {
         setVisible(true);
     }
 
-    //Métodos para chamar os dialogs para abrir os painel (Tipo de Combustivel)
+    // Abre o diálogo para cadastrar um novo tipo de combustível
     private void cadastrarTipoCombustivel() {
         CadastroTipoCombustivel cadastro = new CadastroTipoCombustivel(this);
         cadastro.exibir();
     }
     
+    // Abre o diálogo para deletar um tipo de combustível
     private void deletarTipoCombustivel() {
         DeletarTipoCombustivel deletar = new DeletarTipoCombustivel(this);
         deletar.exibir();
     }
 
+    // Abre o diálogo para atualizar um tipo de combustível existente
     private void atualizarTipoCombustivel() {
         AtualizarTipoCombustivel atualizar = new AtualizarTipoCombustivel(this);
         atualizar.exibir();
     }
 
+    // Abre o diálogo para cadastrar uma nova bomba de combustível
     private void cadastrarBomba(){
         CadastroBomba cadastro = new CadastroBomba(this);
         cadastro.exibir();
     }
 
+    // Abre o diálogo para deletar uma bomba de combustível
     private void deletarBomba(){
         DeletarBomba deletar = new DeletarBomba(this);
         deletar.exibir();
     }
 
+    // Abre o diálogo para atualizar uma bomba de combustível existente
     private void atualizarBombas(){
         AtualizarBomba atualizar = new AtualizarBomba(this);
         atualizar.exibir();
     }
 
+    // Abre o diálogo para cadastrar um novo abastecimento
     private void criarAbastecimento() {
         CadastroAbastecimentos cadastro = new CadastroAbastecimentos(this);
         cadastro.exibir();
     }
 
+    // Abre o diálogo para atualizar um abastecimento existente
     private void atualizarAbastecimento() {
         AtualizarAbastecimentos atualizar = new AtualizarAbastecimentos(this);
         atualizar.exibir();
     }
 
+    // Abre o diálogo para deletar um abastecimento
     private void deletarAbastecimentos(){
         DeletarAbastecimentos deletar = new DeletarAbastecimentos(this);
         deletar.exibir();
     }
 
-    //Métodos para ver a lista de itens cadastrados
+    // Busca e exibe todos os tipos de combustível cadastrados na área de texto
     public void verTiposCombustivel() {
         try {
             List<TipoCombustivel> tipos = tipoCombustivelService.listar();
@@ -183,6 +196,7 @@ public class JanelaPrincipal extends JFrame {
         }
     }
 
+    // Busca e exibe todas as bombas de combustível cadastradas na área de texto
     public void verBombas(){
         List <BombasCombustivel> bombasCombustivel = bombasCombustivelService.listar();
 
@@ -212,6 +226,7 @@ public class JanelaPrincipal extends JFrame {
         displayArea.setText(sb.toString());
     }
 
+    // Busca e exibe todos os abastecimentos cadastrados na área de texto
     public void verAbastecimentos(){
         List<Abastecimentos> abastecimentos = abastecimentosService.listar();
 

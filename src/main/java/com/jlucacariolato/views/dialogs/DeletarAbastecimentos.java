@@ -3,7 +3,9 @@ package com.jlucacariolato.views.dialogs;
 import com.jlucacariolato.services.AbastecimentosService;
 import com.jlucacariolato.views.JanelaPrincipal;
 
-import javax.swing.*;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class DeletarAbastecimentos extends JDialog {
 
@@ -14,11 +16,13 @@ public class DeletarAbastecimentos extends JDialog {
         this.abastecimentosService = new AbastecimentosService();
     }
 
+    // Exibe o diálogo para deletar um abastecimento
     public void exibir() {
         exibirOpcoesDeletar();
         dispose();
     }
 
+    // Solicita o ID do abastecimento e confirma a exclusão
     private void exibirOpcoesDeletar() {
         String input = JOptionPane.showInputDialog(
                 getParent(),

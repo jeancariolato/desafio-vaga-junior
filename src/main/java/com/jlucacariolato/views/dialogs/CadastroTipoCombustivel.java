@@ -5,7 +5,14 @@ import com.jlucacariolato.model.TipoCombustivel;
 
 import com.jlucacariolato.views.JanelaPrincipal;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import java.awt.*;
 
 public class CadastroTipoCombustivel {
@@ -20,7 +27,7 @@ public class CadastroTipoCombustivel {
         this.parent = parent;
     }
 
-    //Metodo de Exibir
+    // Exibe o diálogo de cadastro de novo tipo de combustível
     public void exibir() {
         // Criar painel principal
         JPanel panel = new JPanel();
@@ -55,6 +62,7 @@ public class CadastroTipoCombustivel {
         }
     }
 
+    // Valida os dados e salva o novo tipo de combustível no banco de dados
     private void processarCadastro() {
         String nome = txtNome.getText().trim();
         String precoStr = txtPreco.getText().trim();
@@ -88,6 +96,7 @@ public class CadastroTipoCombustivel {
         }
     }
 
+    // Cria e salva um novo tipo de combustível no banco de dados
     private void salvarCombustivel(String nome, double preco) {
         //Chamando DAO para fazer o salvamento
         TipoCombustivel tipoCombustivel = new TipoCombustivel(nome, preco);
@@ -97,6 +106,7 @@ public class CadastroTipoCombustivel {
         System.out.println("Salvando combustível: " + nome + " - R$ " + preco);
     }
 
+    // Exibe uma mensagem de erro ao usuário
     private void exibirErro(String mensagem) {
         JOptionPane.showMessageDialog(
                 parent,
@@ -106,6 +116,7 @@ public class CadastroTipoCombustivel {
         );
     }
 
+    // Exibe uma mensagem de sucesso com os dados cadastrados
     private void exibirSucesso(String nome, double preco) {
         String mensagem = String.format(
                 "Combustível cadastrado com sucesso!\n\nNome: %s\nPreço: R$ %.2f",

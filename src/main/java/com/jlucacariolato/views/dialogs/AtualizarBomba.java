@@ -6,7 +6,15 @@ import com.jlucacariolato.services.BombasCombustivelService;
 import com.jlucacariolato.services.TipoCombustivelService;
 import com.jlucacariolato.views.JanelaPrincipal;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -43,6 +51,7 @@ public class AtualizarBomba extends JDialog {
         }
     }
 
+    // Atualiza os campos do formulário com os dados da bomba selecionada pelo ID
     private void atualizarCamposParaBombaId(Integer id) {
         if (id == null) {
             return;
@@ -59,6 +68,7 @@ public class AtualizarBomba extends JDialog {
         }
     }
 
+    // Carrega os IDs de todas as bombas cadastradas no combo box
     private void carregarBombasIds() {
         try {
             List<BombasCombustivel> bombas = bombasCombustivelService.listar();
@@ -72,6 +82,7 @@ public class AtualizarBomba extends JDialog {
         }
     }
 
+    // Carrega todos os tipos de combustível disponíveis no combo box
     private void carregarTiposCombustivel() {
         try {
             tiposCombustivel = tipoCombustivelService.listar();
@@ -85,6 +96,7 @@ public class AtualizarBomba extends JDialog {
         }
     }
 
+    // Exibe o diálogo de atualização de bomba com os campos preenchidos
     public void exibir() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(6, 1, 10, 10));
