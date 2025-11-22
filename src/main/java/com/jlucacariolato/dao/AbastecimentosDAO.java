@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jlucacariolato.model.Abastecimentos;
-import com.jlucacariolato.model.BombasCombustivel;
 
 public class AbastecimentosDAO {
 
@@ -23,14 +22,13 @@ public class AbastecimentosDAO {
 
     // Criar
     public void criarAbastecimento(Abastecimentos abastecimento) {
-        String sql = "INSERT INTO abastecimentos (bombaCombustivelId, dataAbastecimento, quantidadeAbastecida, precoCombustivel, totalPago) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO abastecimentos (bombaCombustivelId, dataHoraAbastecimento, quantidadeAbastecida, precoCombustivel, totalPago) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             // Parse String para data
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate data = LocalDate.parse(abastecimento.getDataAbastecimento(), formatter);
-            LocalDateTime ldt = data.atStartOfDay(); // 00:00:00
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime ldt = LocalDateTime.parse(abastecimento.getDataAbastecimento(), formatter);
 
             pstmt.setInt(1, abastecimento.getBombaCombustivel().getId());
             pstmt.setTimestamp(2, Timestamp.valueOf(ldt));
@@ -51,7 +49,7 @@ public class AbastecimentosDAO {
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(sql)) {
             
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             
             BombasCombustivelDAO bombaDAO = new BombasCombustivelDAO();
             
@@ -61,6 +59,8 @@ public class AbastecimentosDAO {
                 abastecimento.setBombaCombustivel(bombaDAO.buscarBombaPorId(rs.getInt("bombaCombustivelId")));
                 abastecimento.setDataAbastecimento(rs.getTimestamp("dataHoraAbastecimento").toLocalDateTime().format(formatter));
                 abastecimento.setLitros(rs.getDouble("quantidadeAbastecida"));
+                abastecimento.setQuantidadeValor(rs.getDouble("precoCombustivel"));
+                abastecimento.setTotalPago(rs.getDouble("totalPago"));
                 lista.add(abastecimento);
             }
         } catch (SQLException e) {
@@ -76,9 +76,8 @@ public class AbastecimentosDAO {
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             // Parse String para data
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate data = LocalDate.parse(abastecimento.getDataAbastecimento(), formatter);
-            LocalDateTime ldt = data.atStartOfDay();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime ldt = LocalDateTime.parse(abastecimento.getDataAbastecimento(), formatter);
             
             pstmt.setInt(1, abastecimento.getBombaCombustivel().getId());
             pstmt.setTimestamp(2, Timestamp.valueOf(ldt));

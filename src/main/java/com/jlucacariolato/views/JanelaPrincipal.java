@@ -1,16 +1,18 @@
 package com.jlucacariolato.views;
 
 import com.jlucacariolato.dao.TipoCombustivelDAO;
+import com.jlucacariolato.model.Abastecimentos;
+import com.jlucacariolato.model.BombasCombustivel;
 import com.jlucacariolato.model.TipoCombustivel;
 import com.jlucacariolato.services.AbastecimentosService;
 import com.jlucacariolato.services.BombasCombustivelService;
 import com.jlucacariolato.services.TipoCombustivelService;
-import com.jlucacariolato.views.dialogs.AtualizarTipoCombustivel;
-import com.jlucacariolato.views.dialogs.CadastroBomba;
-import com.jlucacariolato.views.dialogs.CadastroTipoCombustivel;
-import com.jlucacariolato.views.dialogs.DeletarTipoCombustivel; // Added import
+import com.jlucacariolato.views.dialogs.*;
 
+import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -89,6 +91,14 @@ public class JanelaPrincipal extends JFrame {
         deletarTipo.addActionListener(e -> deletarTipoCombustivel());
         atualizarTipo.addActionListener(e -> atualizarTipoCombustivel());
 
+        verBomba.addActionListener(e -> verBombas());
+        criarBomba.addActionListener(e -> cadastrarBomba());
+        deletarBomba.addActionListener(e -> deletarBomba());
+        atualizarBomba.addActionListener(e -> atualizarBombas());
+
+        verAbastecimento.addActionListener(e -> verAbastecimentos());
+        criarAbastecimento.addActionListener(e -> criarAbastecimento());
+
         setVisible(true);
     }
 
@@ -106,6 +116,26 @@ public class JanelaPrincipal extends JFrame {
     private void atualizarTipoCombustivel() {
         AtualizarTipoCombustivel atualizar = new AtualizarTipoCombustivel(this);
         atualizar.exibir();
+    }
+
+    private void cadastrarBomba(){
+        CadastroBomba cadastro = new CadastroBomba(this);
+        cadastro.exibir();
+    }
+
+    private void deletarBomba(){
+        DeletarBomba deletar = new DeletarBomba(this);
+        deletar.exibir();
+    }
+
+    private void atualizarBombas(){
+        AtualizarBomba atualizar = new AtualizarBomba(this);
+        atualizar.exibir();
+    }
+
+    private void criarAbastecimento() {
+        CadastroAbastecimentos cadastro = new CadastroAbastecimentos(this);
+        cadastro.exibir();
     }
 
     //Métodos para ver a lista de itens cadastrados
@@ -138,6 +168,87 @@ public class JanelaPrincipal extends JFrame {
             displayArea.setText("Erro ao buscar tipos de combustível:\n" + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private void verBombas(){
+        List <BombasCombustivel> bombasCombustivel = bombasCombustivelService.listar();
+
+        if (bombasCombustivel.isEmpty()) {
+            displayArea.setText("Nenhuma bomba cadastrada.");
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("%-5s  %-25s  %-15s\n",
+                "ID", "NOME", "TIPO DE COMBUSTÍVEL"));
+        sb.append("--------------------------------------------------------------\n");
+
+        for (BombasCombustivel bomba : bombasCombustivel) {
+
+            String tipoCombustivelNome = "N/A";
+            if (bomba.getTipoCombustivel() != null) {
+                tipoCombustivelNome = bomba.getTipoCombustivel().getNome();
+            }
+            sb.append(String.format("%-5d  %-25s  %-15s\n",
+                    bomba.getId(),
+                    bomba.getNomeBomba(),
+                    tipoCombustivelNome));
+        }
+
+        displayArea.setText(sb.toString());
+    }
+
+    private void verAbastecimentos(){
+        List<Abastecimentos> abastecimentos = abastecimentosService.listar();
+
+        if (abastecimentos.isEmpty()) {
+            displayArea.setText("Nenhum abastecimento cadastrado.");
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("%-5s  %-15s  %-20s  %-15s  %-15s  %-15s\n",
+                "ID", "BOMBA", "DATA/HORA", "QUANTIDADE (L)", "PREÇO/L (R$)", "TOTAL PAGO (R$)"));
+        sb.append("----------------------------------------------------------------------------------------------------\n");
+
+        for (Abastecimentos ab : abastecimentos) {
+
+            String bombaNome = "N/A";
+            if (ab.getBombaCombustivel() != null) {
+                bombaNome = ab.getBombaCombustivel().getNomeBomba();
+            }
+
+            String precoLitro = String.format("%.2f", ab.getQuantidadeValor()).replace('.', ',');
+            String totalPago = String.format("%.2f", ab.getTotalPago()).replace('.', ',');
+            String quantidade = String.format("%.2f", ab.getLitros()).replace('.', ',');
+
+
+            String dataHoraOriginal = ab.getDataAbastecimento();
+            String dataFormatada = "N/A";
+            try {
+
+                DateTimeFormatter parser = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime dateTime = LocalDateTime.parse(dataHoraOriginal, parser);
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                dataFormatada = dateTime.format(formatter);
+            } catch (DateTimeParseException e) {
+
+                System.err.println("Erro ao formatar data: " + dataHoraOriginal + " - " + e.getMessage());
+            }
+
+            sb.append(String.format("%-5d  %-15s  %-20s  %-15s  %-15s  %-15s\n",
+                    ab.getId(),
+                    bombaNome,
+                    dataFormatada,
+                    quantidade,
+                    precoLitro,
+                    totalPago));
+        }
+
+        displayArea.setText(sb.toString());
     }
 
 }

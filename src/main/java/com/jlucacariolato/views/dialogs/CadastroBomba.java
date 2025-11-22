@@ -1,129 +1,97 @@
 package com.jlucacariolato.views.dialogs;
 
-import com.jlucacariolato.dao.BombasCombustivelDAO;
 import com.jlucacariolato.model.BombasCombustivel;
 import com.jlucacariolato.model.TipoCombustivel;
+import com.jlucacariolato.services.BombasCombustivelService;
+import com.jlucacariolato.services.TipoCombustivelService;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
 public class CadastroBomba {
-    private JFrame parent;
-    private JTextField txtNomeBomba;
-    private JComboBox<String> comboTipo;
-    private List<String> tiposCombustivel;
+    private final JFrame parent;
+    private JTextField txtNome;
+    private JComboBox<String> combo;
+    private BombasCombustivelService bombaService;
+    private TipoCombustivelService tipoCombustivelService;
+    private List<TipoCombustivel> tiposCombustivel;
 
-    //CONSTRUTOR
-
-    public CadastroBomba(JFrame parent, List<String> tiposCombustivel) {
+    public CadastroBomba(JFrame parent) {
         this.parent = parent;
-        this.tiposCombustivel = tiposCombustivel;
+        this.tipoCombustivelService = new TipoCombustivelService();
+        this.bombaService = new BombasCombustivelService();
     }
 
     public void exibir() {
-        // Criar painel principal
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(2, 2, 10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        tiposCombustivel = tipoCombustivelService.listar();
 
-        // Criar componentes
-        JLabel lblNome = new JLabel("Nome da Bomba:");
-        txtNomeBomba = new JTextField(20);
-
-        JLabel labelTipo = new JLabel("Tipo de Combustível:");
-        comboTipo = new JComboBox<>();
-
-        // Adicionar opção padrão
-        comboTipo.addItem("-- Selecione --");
-
-        // Carregar tipos de combustível no dropdown
-        if (tiposCombustivel != null && !tiposCombustivel.isEmpty()) {
-            for (String tipo : tiposCombustivel) {
-                comboTipo.addItem(tipo);
-            }
+        if (tiposCombustivel.isEmpty()) {
+            JOptionPane.showMessageDialog(parent, "Cadastre um tipo de combustível primeiro!", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
-        // Adicionar componentes ao painel
-        panel.add(lblNome);
-        panel.add(txtNomeBomba);
-        panel.add(labelTipo);
-        panel.add(comboTipo);
+        JPanel panel = new JPanel(new GridLayout(2, 2, 10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Exibir diálogo
+        JLabel labelNome = new JLabel("Nome da bomba:");
+        txtNome = new JTextField(20);
+
+        JLabel labelTipo = new JLabel("Tipo de Combustível:");
+        combo = new JComboBox<>();
+        for (TipoCombustivel tipo : tiposCombustivel) {
+            combo.addItem(tipo.getNome());
+        }
+
+        panel.add(labelNome);
+        panel.add(txtNome);
+        panel.add(labelTipo);
+        panel.add(combo);
+
         int resultado = JOptionPane.showConfirmDialog(
                 parent,
                 panel,
-                "Cadastrar Bomba de Combustível",
+                "Cadastrar bomba",
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.PLAIN_MESSAGE
         );
 
-        // Processar resultado
         if (resultado == JOptionPane.OK_OPTION) {
             processarCadastro();
         }
     }
 
     private void processarCadastro() {
-        String nomeBomba = txtNomeBomba.getText().trim();
-        String tipoCombustivel = (String) comboTipo.getSelectedItem();
+        String nome = txtNome.getText().trim();
+        String tipoSelecionadoNome = (String) combo.getSelectedItem();
 
-        if (nomeBomba.isEmpty()) {
-            exibirErro("Por favor, informe o nome da bomba!");
+        if (nome.isEmpty()) {
+            exibirErro("Por favor, preencha o nome da bomba!");
             return;
         }
 
-        // Validar seleção de combustível
-        if (tipoCombustivel == null || tipoCombustivel.equals("-- Selecione --")) {
-            exibirErro("Por favor, selecione um tipo de combustível!");
-            return;
+        TipoCombustivel tipoSelecionado = null;
+        for (TipoCombustivel tipo : tiposCombustivel) {
+            if (tipo.getNome().equals(tipoSelecionadoNome)) {
+                tipoSelecionado = tipo;
+                break;
+            }
         }
 
-        // Salvar os dados
-        salvarBomba(nomeBomba, tipoCombustivel);
-
-        // Exibir sucesso
-        exibirSucesso(nomeBomba, tipoCombustivel);
+        if (tipoSelecionado != null) {
+            salvarBomba(nome, tipoSelecionado);
+        } else {
+            exibirErro("Tipo de combustível selecionado é inválido!");
+        }
     }
 
-    private void salvarBomba(String nomeBomba, String tipoCombustivel) {
-        // TODO: Implementar lógica de salvamento
-        // Exemplo:
-        // Bomba bomba = new Bomba(nomeBomba, tipoCombustivel);
-        // BombaDAO dao = new BombaDAO();
-        // dao.salvar(bomba);
-
-        BombasCombustivel bomba = new BombasCombustivel( );
-        BombasCombustivelDAO dao = new BombasCombustivelDAO();
-        dao.criarBombaCombustivel(bomba);
-
-
-        System.out.println("Salvando bomba: " + nomeBomba + " - Combustível: " + tipoCombustivel);
+    private void salvarBomba(String nome, TipoCombustivel tipoCombustivel) {
+        BombasCombustivel bombaCombustivel = new BombasCombustivel(nome, tipoCombustivel);
+        bombaService.criar(bombaCombustivel);
+        JOptionPane.showMessageDialog(parent, "Bomba cadastrada com sucesso!");
     }
 
     private void exibirErro(String mensagem) {
-        JOptionPane.showMessageDialog(
-                parent,
-                mensagem,
-                "Erro",
-                JOptionPane.ERROR_MESSAGE
-        );
+        JOptionPane.showMessageDialog(parent, mensagem, "Erro", JOptionPane.ERROR_MESSAGE);
     }
-
-    private void exibirSucesso(String nomeBomba, String tipoCombustivel) {
-        String mensagem = String.format(
-                "Bomba cadastrada com sucesso!\n\nNome: %s\nTipo de Combustível: %s",
-                nomeBomba,
-                tipoCombustivel
-        );
-
-        JOptionPane.showMessageDialog(
-                parent,
-                mensagem,
-                "Sucesso",
-                JOptionPane.INFORMATION_MESSAGE
-        );
-    }
-
 }

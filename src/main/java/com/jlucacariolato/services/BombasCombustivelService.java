@@ -13,6 +13,10 @@ public class BombasCombustivelService {
         bombaDAO.criarBombaCombustivel(bomba);
     }
 
+    public BombasCombustivel buscarPorId(int id) {
+        return bombaDAO.buscarBombaPorId(id);
+    }
+
      public List<BombasCombustivel> listar(){
         return bombaDAO.listarBombas();
     }
